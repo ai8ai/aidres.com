@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>AI Beauty - Yang Chenchen</title>
+    <style>
+        .title {
+            text-align: center;
+        }
+
+        .desc {
+            text-align: center;
+            font-size: 1em;
+            font-family: Georgia, serif;
+        }
+
+        img {
+            width: 97%;
+        }
+
+        .masonry {
+            column-count: 4;
+            gap: 20px;
+        }
+
+        .masonry .mItem {
+            display: none;
+            /* hide by default */
+            margin-top: 18px;
+            width: 100%;
+            position: relative;
+        }
+
+        .masonry .mItem.show {
+            display: inline-block;
+            /* show filtered */
+        }
+
+        @media (max-width: 1199px) {
+            .masonry {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .masonry {
+                column-count: 1;
+            }
+        }
+
+        /* Menu */
+        .menu {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .menu button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #444;
+            color: white;
+        }
+
+        .menu button:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <style>
+        /* The title */
+        .title {
+            font-weight: 50;
+        }
+
+        /* The description */
+        .desc {
+            font-size: 1em;
+            font-family: Georgia, serif;
+        }
+
+        /* Text-centering */
+        .title,
+        .desc,
+        .intro {
+            text-align: center;
+        }
+
+        img {
+            width: 97%;
+        }
+
+        .masonry {
+            column-count: 4;
+            gap: 20px;
+        }
+
+        .masonry .mItem {
+            display: inline-block;
+            margin-top: 18px;
+            width: 100%;
+            position: relative;
+        }
+
+        @media (max-width: 1199px) {
+            .masonry {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .masonry {
+                column-count: 1;
+            }
+        }
+
+        /* CUSTOME CSS ADDED BY ALI */
+        .overlay {
+            opacity: 0;
+            position: absolute;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(1, 1, 1, 0.5);
+            top: 0;
+            left: 0;
+            text-align: center;
+            width: 97%;
+            height: 98%;
+        }
+
+        .text {
+            font-size: 150%;
+            display: inline-block;
+            margin-top: 30%;
+            color: white;
+        }
+
+        .overlay:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    </style>
+    <h1 class="title style1">&nbsp;</h1>
+    <h1 class="title style2">AI Beauty</h1>
+    <h2 class="desc style2">Asian Beauty Yang Chenchen. 亚洲美女Yome Sugar 杨晨晨</h2>
+
+
+    <div class="menu" style="text-align:center; margin:20px 0;">
+        <button onclick="filterSelection('all')"> Show All</button>
+        <button onclick="filterSelection('waterfall')"> Waterfalls</button>
+        <button onclick="filterSelection('portrait')"> Portraits</button>
+        <button onclick="filterSelection('nature')"> Nature</button>
+    </div>
+
+    <div class="masonry">
+
+        <div class="mItem waterfall">
+            <img src="https://ai8ai.github.io/abycc/pure/pu1.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI1 Beauty</span>
+            </div>
+
+        </div>
+
+
+        <div class="mItem portrait">
+            <img src="https://ai8ai.github.io/abycc/pure/pu8.jpg" alt="Portrait">
+            <div class="overlay">
+                <span class="text">AI2 Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem waterfall nature">
+            <img src="https://ai8ai.github.io/abycc/pure/pu3.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI2 Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem waterfall">
+            <img src="https://ai8ai.github.io/abycc/pure/pu27.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI3 Beauty</span>
+            </div>
+        </div>
+
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu24.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI4 Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu26.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu11.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu12.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu13.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu16.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu9.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu10.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu5.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu30.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu6.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu17.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu7.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu4.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu25.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu28.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu22.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu29.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu2.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu20.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+        <div class="mItem">
+            <img src="https://ai8ai.github.io/abycc/pure/pu21.jpg" alt="AI Beauty">
+            <div class="overlay">
+                <span class="text">AI Beauty</span>
+            </div>
+        </div>
+
+    </div>
+    </head>
+
+    <style>
+        .menu {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .menu button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #444;
+            color: white;
+        }
+
+        .menu button:hover {
+            background-color: #666;
+        }
+
+        .mItem {
+            display: none;
+        }
+
+        /* hide all by default */
+        .mItem.show {
+            display: inline-block;
+        }
+
+        /* only show filtered */
+    </style>
+
+<script>
+function filterSelection(category) {
+    let items = document.getElementsByClassName("mItem");
+    if (category === "all") category = "";
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove("show");
+        if (items[i].className.indexOf(category) > -1) {
+            items[i].classList.add("show");
+        }
+    }
+}
+// Show all on page load
+filterSelection("all");
+</script>
+
+</body>
+</html>
