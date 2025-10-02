@@ -1,86 +1,115 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gallery Filter Demo</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #fafafa; }
-  h1 { text-align: center; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Beauty - Yang Chenchen</title>
+  <style>
+    :root { --bg:#fff; --muted:#444; }
+    body { margin:0; padding:1rem; font-family: Arial, Helvetica, sans-serif; color: #222; background:var(--bg); }
 
-  /* Menu buttons */
-  .menu { text-align: center; margin-bottom: 20px; }
-  .menu button {
-    padding: 8px 16px; margin: 5px; border: none; border-radius: 5px;
-    background: #444; color: #fff; cursor: pointer;
-  }
-  .menu button.active { background: #007bff; }
+    .title, .desc { text-align:center; }
+    .title { font-size:2rem; margin:0.5rem 0; font-weight:600; }
+    .desc { font-family: Georgia, serif; font-size:1rem; margin:0 0 1rem; color:var(--muted); }
 
-  /* Gallery layout */
-  .gallery {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
-  }
-  .item {
-    display: none; /* hidden by default */
-    width: 300px; position: relative;
-  }
-  .item.show { display: block; } /* shown when filter matches */
-  .item img { width: 100%; border-radius: 8px; display: block; }
-</style>
+    .masonry { column-count: 4; column-gap: 20px; }
+    .mItem { margin-top: 18px; width:100%; position: relative; break-inside: avoid; }
+    @media (max-width: 1199px) { .masonry { column-count: 3; } }
+    @media (max-width: 991px)  { .masonry { column-count: 2; } }
+    @media (max-width: 767px)  { .masonry { column-count: 1; } }
+
+    .mItem img { width:100%; height:auto; display:block; border-radius:6px; }
+
+    .mItem .overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); color:#fff; opacity:0; transition:opacity .18s ease; border-radius:6px; }
+    .mItem:hover .overlay { opacity:1; cursor:pointer; }
+    .overlay .text { font-size:1rem; padding:0.25rem 0.5rem; }
+
+    .menu { text-align:center; margin:20px 0; }
+    .menu button { padding:10px 16px; margin:4px; border:none; border-radius:6px; cursor:pointer; background:#444; color:#fff; }
+    .menu button:hover { background:#666; }
+    .menu button:focus { outline:2px solid #222; outline-offset:2px; }
+  </style>
 </head>
 <body>
 
-<h1>Simple Filterable Gallery</h1>
+  <h1 class="title">AI Beauty</h1>
+  <h2 class="desc">Asian Beauty Yang Chenchen. 亚洲美女 Yome Sugar 杨晨晨</h2>
 
-<!-- Buttons -->
-<div class="menu" id="menu">
-  <button data-filter="all" class="active">Show All</button>
-  <button data-filter="waterfall">Waterfalls</button>
-  <button data-filter="portrait">Portraits</button>
-</div>
+  <div class="menu" role="navigation" aria-label="Filter gallery">
+    <button type="button" onclick="filterSelection('waterfall')">Waterfalls</button>
+    <button type="button" onclick="filterSelection('portrait')">Portraits</button>
+    <button type="button" onclick="filterSelection('nature')">Nature</button>
+  </div>
 
-<!-- Gallery -->
-<div class="gallery" id="gallery">
-  <div class="item waterfall">
-    <img src="https://picsum.photos/id/1018/400/300" alt="Waterfall 1">
+  <div class="masonry" id="masonry" aria-live="polite">
+    <p id="gallery-msg" style="text-align:center;color:var(--muted);">Choose a filter to load images.</p>
   </div>
-  <div class="item portrait">
-    <img src="https://picsum.photos/id/1005/400/300" alt="Portrait 1">
-  </div>
-  <div class="item waterfall">
-    <img src="https://picsum.photos/id/1011/400/300" alt="Waterfall 2">
-  </div>
-  <div class="item portrait">
-    <img src="https://picsum.photos/id/1027/400/300" alt="Portrait 2">
-  </div>
-</div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const buttons = document.querySelectorAll("#menu button");
-  const items = document.querySelectorAll(".gallery .item");
+  <script>
+    const masonry = document.getElementById('masonry');
+    const msg = document.getElementById('gallery-msg');
 
-  function filter(category) {
-    items.forEach(item => {
-      if (category === "all" || item.classList.contains(category)) {
-        item.classList.add("show");
-      } else {
-        item.classList.remove("show");
+    function clearMasonry() {
+      masonry.innerHTML = "";
+    }
+
+    function renderImages(images) {
+      clearMasonry();
+      if (!images || images.length === 0) {
+        const p = document.createElement('p');
+        p.style.textAlign = 'center';
+        p.style.color = 'var(--muted)';
+        p.textContent = 'No images for this filter.';
+        masonry.appendChild(p);
+        return;
       }
-    });
-  }
+      const frag = document.createDocumentFragment();
+      images.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'mItem';
 
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      buttons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      filter(btn.dataset.filter);
-    });
-  });
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.src = item.src;
+        img.alt = item.alt || '';
 
-  filter("all"); // show everything at start
-});
-</script>
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.setAttribute('aria-hidden','true');
+
+        div.appendChild(img);
+        div.appendChild(overlay);
+        frag.appendChild(div);
+      });
+      masonry.appendChild(frag);
+    }
+
+    async function filterSelection(category) {
+      clearMasonry();
+      const p = document.createElement('p');
+      p.style.textAlign = 'center';
+      p.style.color = 'var(--muted)';
+      p.textContent = 'Loading...';
+      masonry.appendChild(p);
+
+      try {
+        const res = await fetch(`json/${category}.json`);
+        if (!res.ok) throw new Error("Failed to load JSON");
+        const images = await res.json();
+        renderImages(images);
+      } catch (err) {
+        clearMasonry();
+        const p = document.createElement('p');
+        p.style.textAlign = 'center';
+        p.style.color = 'var(--muted)';
+        p.textContent = 'Error loading images.';
+        masonry.appendChild(p);
+        console.error(err);
+      }
+    }
+
+    window.filterSelection = filterSelection;
+  </script>
 
 </body>
 </html>
