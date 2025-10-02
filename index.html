@@ -1,115 +1,72 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI Beauty - Yang Chenchen</title>
-  <style>
-    :root { --bg:#fff; --muted:#444; }
-    body { margin:0; padding:1rem; font-family: Arial, Helvetica, sans-serif; color: #222; background:var(--bg); }
-
-    .title, .desc { text-align:center; }
-    .title { font-size:2rem; margin:0.5rem 0; font-weight:600; }
-    .desc { font-family: Georgia, serif; font-size:1rem; margin:0 0 1rem; color:var(--muted); }
-
-    .masonry { column-count: 4; column-gap: 20px; }
-    .mItem { margin-top: 18px; width:100%; position: relative; break-inside: avoid; }
-    @media (max-width: 1199px) { .masonry { column-count: 3; } }
-    @media (max-width: 991px)  { .masonry { column-count: 2; } }
-    @media (max-width: 767px)  { .masonry { column-count: 1; } }
-
-    .mItem img { width:100%; height:auto; display:block; border-radius:6px; }
-
-    .mItem .overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); color:#fff; opacity:0; transition:opacity .18s ease; border-radius:6px; }
-    .mItem:hover .overlay { opacity:1; cursor:pointer; }
-    .overlay .text { font-size:1rem; padding:0.25rem 0.5rem; }
-
-    .menu { text-align:center; margin:20px 0; }
-    .menu button { padding:10px 16px; margin:4px; border:none; border-radius:6px; cursor:pointer; background:#444; color:#fff; }
-    .menu button:hover { background:#666; }
-    .menu button:focus { outline:2px solid #222; outline-offset:2px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Beauty - Yang Chenchen</title>
+<style>
+  :root{--bg:#fff;--muted:#444;}
+  body{margin:0;padding:1rem;font:16px Arial,Helvetica,sans-serif;color:#222;background:var(--bg);}
+  h1,h2{text-align:center;margin:.5rem 0}
+  h1{font-size:2rem;font-weight:600}
+  h2{font:1rem Georgia,serif;color:var(--muted)}
+  .menu{text-align:center;margin:20px 0}
+  .menu button{padding:10px 16px;margin:4px;border:0;border-radius:6px;cursor:pointer;background:#444;color:#fff}
+  .menu button:hover{background:#666}
+  .menu button:focus{outline:2px solid #222;outline-offset:2px}
+  .masonry{column-count:4;column-gap:20px}
+  .mItem{margin-top:18px;break-inside:avoid;position:relative}
+  .mItem img{width:100%;border-radius:6px;display:block}
+  .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);color:#fff;opacity:0;transition:.18s;border-radius:6px}
+  .mItem:hover .overlay{opacity:1;cursor:pointer}
+  @media(max-width:1199px){.masonry{column-count:3}}
+  @media(max-width:991px){.masonry{column-count:2}}
+  @media(max-width:767px){.masonry{column-count:1}}
+</style>
 </head>
 <body>
 
-  <h1 class="title">AI Beauty</h1>
-  <h2 class="desc">Asian Beauty Yang Chenchen. 亚洲美女 Yome Sugar 杨晨晨</h2>
+<h1>AI Beauty</h1>
+<h2>Asian Beauty Yang Chenchen. 亚洲美女 Yome Sugar 杨晨晨</h2>
 
-  <div class="menu" role="navigation" aria-label="Filter gallery">
-    <button type="button" onclick="filterSelection('waterfall')">Waterfalls</button>
-    <button type="button" onclick="filterSelection('portrait')">Portraits</button>
-    <button type="button" onclick="filterSelection('nature')">Nature</button>
-  </div>
+<div class="menu" role="navigation">
+  <button onclick="load('waterfall')">Waterfalls</button>
+  <button onclick="load('portrait')">Portraits</button>
+  <button onclick="load('nature')">Nature</button>
+</div>
 
-  <div class="masonry" id="masonry" aria-live="polite">
-    <p id="gallery-msg" style="text-align:center;color:var(--muted);">Choose a filter to load images.</p>
-  </div>
+<div id="masonry" class="masonry" aria-live="polite"></div>
 
-  <script>
-    const masonry = document.getElementById('masonry');
-    const msg = document.getElementById('gallery-msg');
+<script>
+const masonry=document.getElementById('masonry');
+const showMsg=txt=>{
+  masonry.innerHTML=`<p style="text-align:center;color:var(--muted)">${txt}</p>`;
+};
 
-    function clearMasonry() {
-      masonry.innerHTML = "";
-    }
+const render=imgs=>{
+  masonry.innerHTML='';
+  if(!imgs?.length) return showMsg('No images for this filter.');
+  masonry.append(...imgs.map(i=>{
+    let d=document.createElement('div');
+    d.className='mItem';
+    d.innerHTML=`<img src="${i.src}" alt="${i.alt||''}" loading="lazy"><div class="overlay" aria-hidden="true"></div>`;
+    return d;
+  }));
+};
 
-    function renderImages(images) {
-      clearMasonry();
-      if (!images || images.length === 0) {
-        const p = document.createElement('p');
-        p.style.textAlign = 'center';
-        p.style.color = 'var(--muted)';
-        p.textContent = 'No images for this filter.';
-        masonry.appendChild(p);
-        return;
-      }
-      const frag = document.createDocumentFragment();
-      images.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'mItem';
+async function load(cat){
+  showMsg('Loading...');
+  try{
+    let r=await fetch(`json/${cat}.json`);
+    render(await r.json());
+  }catch(e){
+    console.error(e);
+    showMsg('Error loading images.');
+  }
+}
 
-        const img = document.createElement('img');
-        img.loading = 'lazy';
-        img.src = item.src;
-        img.alt = item.alt || '';
-
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        overlay.setAttribute('aria-hidden','true');
-
-        div.appendChild(img);
-        div.appendChild(overlay);
-        frag.appendChild(div);
-      });
-      masonry.appendChild(frag);
-    }
-
-    async function filterSelection(category) {
-      clearMasonry();
-      const p = document.createElement('p');
-      p.style.textAlign = 'center';
-      p.style.color = 'var(--muted)';
-      p.textContent = 'Loading...';
-      masonry.appendChild(p);
-
-      try {
-        const res = await fetch(`json/${category}.json`);
-        if (!res.ok) throw new Error("Failed to load JSON");
-        const images = await res.json();
-        renderImages(images);
-      } catch (err) {
-        clearMasonry();
-        const p = document.createElement('p');
-        p.style.textAlign = 'center';
-        p.style.color = 'var(--muted)';
-        p.textContent = 'Error loading images.';
-        masonry.appendChild(p);
-        console.error(err);
-      }
-    }
-
-    window.filterSelection = filterSelection;
-  </script>
+document.addEventListener("DOMContentLoaded",()=>load('waterfall'));
+</script>
 
 </body>
 </html>
