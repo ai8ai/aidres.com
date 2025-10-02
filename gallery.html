@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>AI Beauty - Yang Chenchen</title>
   <style>
-    /* Unified, simplified styles */
     :root { --bg:#fff; --muted:#444; }
     body { margin:0; padding:1rem; font-family: Arial, Helvetica, sans-serif; color: #222; background:var(--bg); }
 
@@ -13,23 +12,18 @@
     .title { font-size:2rem; margin:0.5rem 0; font-weight:600; }
     .desc { font-family: Georgia, serif; font-size:1rem; margin:0 0 1rem; color:var(--muted); }
 
-    /* Masonry using CSS columns */
     .masonry { column-count: 4; column-gap: 20px; }
-    .mItem { display: none; margin-top: 18px; width:100%; position: relative; break-inside: avoid; }
-    .mItem.show { display: inline-block; }
-
+    .mItem { margin-top: 18px; width:100%; position: relative; break-inside: avoid; }
     @media (max-width: 1199px) { .masonry { column-count: 3; } }
     @media (max-width: 991px)  { .masonry { column-count: 2; } }
     @media (max-width: 767px)  { .masonry { column-count: 1; } }
 
     .mItem img { width:100%; height:auto; display:block; border-radius:6px; }
 
-    /* Overlay */
     .mItem .overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); color:#fff; opacity:0; transition:opacity .18s ease; border-radius:6px; }
     .mItem:hover .overlay { opacity:1; cursor:pointer; }
     .overlay .text { font-size:1rem; padding:0.25rem 0.5rem; }
 
-    /* Menu */
     .menu { text-align:center; margin:20px 0; }
     .menu button { padding:10px 16px; margin:4px; border:none; border-radius:6px; cursor:pointer; background:#444; color:#fff; }
     .menu button:hover { background:#666; }
@@ -42,7 +36,6 @@
   <h2 class="desc">Asian Beauty Yang Chenchen. 亚洲美女 Yome Sugar 杨晨晨</h2>
 
   <div class="menu" role="navigation" aria-label="Filter gallery">
-    <button type="button" onclick="filterSelection('all')">Show All</button>
     <button type="button" onclick="filterSelection('waterfall')">Waterfalls</button>
     <button type="button" onclick="filterSelection('portrait')">Portraits</button>
     <button type="button" onclick="filterSelection('nature')">Nature</button>
@@ -53,50 +46,16 @@
   </div>
 
   <script>
-    // Image metadata array — keep URLs and their categories here.
-    const imageData = [
-      { src: 'https://ai8ai.github.io/abycc/pure/pu1.jpg', alt: 'AI Beauty', cats: ['waterfall'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu8.jpg', alt: 'Portrait', cats: ['portrait'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu3.jpg', alt: 'AI Beauty', cats: ['waterfall','nature'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu27.jpg', alt: 'AI Beauty', cats: ['waterfall'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu24.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu26.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu11.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu12.jpg', alt: 'AI Beauty', cats: ['portrait'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu13.jpg', alt: 'AI Beauty', cats: ['portrait'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu16.jpg', alt: 'AI Beauty', cats: ['portrait'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu9.jpg', alt: 'AI Beauty', cats: ['portrait'] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu10.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu5.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu30.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu6.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu17.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu7.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu4.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu25.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu28.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu22.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu29.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu2.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu20.jpg', alt: 'AI Beauty', cats: [] },
-      { src: 'https://ai8ai.github.io/abycc/pure/pu21.jpg', alt: 'AI Beauty', cats: [] }
-    ];
-
     const masonry = document.getElementById('masonry');
     const msg = document.getElementById('gallery-msg');
 
     function clearMasonry() {
-      masonry.querySelectorAll('.mItem').forEach(n => n.remove());
+      masonry.innerHTML = "";
     }
 
-    function renderImages(filter) {
+    function renderImages(images) {
       clearMasonry();
-      msg && msg.remove();
-      const filtered = imageData.filter(img => {
-        if (!filter || filter === 'all') return true;
-        return img.cats && img.cats.indexOf(filter) > -1;
-      });
-      if (filtered.length === 0) {
+      if (!images || images.length === 0) {
         const p = document.createElement('p');
         p.style.textAlign = 'center';
         p.style.color = 'var(--muted)';
@@ -105,10 +64,9 @@
         return;
       }
       const frag = document.createDocumentFragment();
-      filtered.forEach(item => {
+      images.forEach(item => {
         const div = document.createElement('div');
-        div.className = 'mItem show';
-        div.setAttribute('data-cats', item.cats.join(','));
+        div.className = 'mItem';
 
         const img = document.createElement('img');
         img.loading = 'lazy';
@@ -126,12 +84,30 @@
       masonry.appendChild(frag);
     }
 
-    // Expose filterSelection for buttons
-    function filterSelection(category) {
-      renderImages(category === 'all' ? 'all' : category);
+    async function filterSelection(category) {
+      clearMasonry();
+      const p = document.createElement('p');
+      p.style.textAlign = 'center';
+      p.style.color = 'var(--muted)';
+      p.textContent = 'Loading...';
+      masonry.appendChild(p);
+
+      try {
+        const res = await fetch(`json/${category}.json`);
+        if (!res.ok) throw new Error("Failed to load JSON");
+        const images = await res.json();
+        renderImages(images);
+      } catch (err) {
+        clearMasonry();
+        const p = document.createElement('p');
+        p.style.textAlign = 'center';
+        p.style.color = 'var(--muted)';
+        p.textContent = 'Error loading images.';
+        masonry.appendChild(p);
+        console.error(err);
+      }
     }
 
-    // Attach to window so inline onclick works
     window.filterSelection = filterSelection;
   </script>
 
