@@ -61,77 +61,34 @@
         </div>
 
 
-
         <script>
             const masonry=document.getElementById('masonry');
+            const showMsg=txt=>{masonry.innerHTML=`<p style="text-align:center;color:var(--muted)">${txt}</p>`;};
 
-            const showMsg = txt => {
-                masonry.innerHTML = `<p style="text-align:center;color:var(--muted)">${txt}</p>`;
+            const render=imgs=>{
+            masonry.innerHTML='';
+            if(!imgs?.length) return showMsg('No images for this filter.');
+            masonry.append(...imgs.map(i=>{
+                let d=document.createElement('div');
+                d.className='mItem';
+                d.innerHTML=`<img src="${i.src}" alt="${i.alt||''}" loading="lazy"><div class="overlay" aria-hidden="true"></div>`;
+                return d;
+            }));
             };
 
-            const render = imgs => {
-                masonry.innerHTML = '';
-                if(!imgs?.length) return showMsg('No images found.');
-                masonry.append(...imgs.map(i => {
-                    let d = document.createElement('div');
-                    d.className = 'mItem';
-                    d.innerHTML = `
-                        <img src="${i.src}" alt="${i.alt||''}" loading="lazy">
-                        <div class="overlay" aria-hidden="true"></div>`;
-                    return d;
-                }));
-            };
-
-            // --- Format conversion ---
-            function parseFsText(text){
-                return text
-                    .split(/\r?\n/)       // split lines
-                    .filter(x => x.trim())// remove empty lines
-                    .map(path => ({
-                        src: convertPathToUrl(path),
-                        alt: ""
-                    }));
-            }
-
-            // Convert local Windows path → Netlify URL
-            function convertPathToUrl(path){
-                const parts = path.split(/[/\\]/).filter(Boolean);
-
-                // match: "a.xxx", "c.bwxy", "z.gallery", "3.bwxy"
-                const mainFolder = parts.find(p => /^[^\\/]\.[A-Za-z0-9_-]+$/.test(p));
-
-                if (!mainFolder) return "";
-
-                // extract right part after dot → "bwxy"
-                const project = mainFolder.split(".")[1];
-
-                // everything after this folder is usable path
-                const idx = parts.indexOf(mainFolder);
-                const after = parts.slice(idx + 1).join("/");
-
-                return `https://${project}.netlify.app/${after}`;
-            }
-
-            // --- Loader ---
             async function load(cat){
-                showMsg('Loading...');
-                try{
-                    const r = await fetch("https://raw.githubusercontent.com/aidres8/bwxy/refs/heads/main/fs.txt");
-                    const text = await r.text();
-                    const imgs = parseFsText(text);
-                    render(imgs);
-                }catch(e){
-                    console.error(e);
-                    showMsg('Error loading images.');
-                }
+            showMsg('Loading...');
+            try{
+                let r=await fetch(`json/${cat}.json`);
+                render(await r.json());
+            }catch(e){
+                console.error(e);
+                showMsg('Error loading images.');
+            }
             }
 
-            document.addEventListener("DOMContentLoaded", () => load('waterfall'));
+            document.addEventListener("DOMContentLoaded",()=>load('waterfall'));
         </script>
-
-
-
-        
 
     </body>
 </html>
