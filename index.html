@@ -33,7 +33,7 @@
         <h2>Yome Sugar, and many more</h2>
 
         <div class="menu" role="navigation">
-            <button onclick="load('https://raw.githubusercontent.com/aidres8/bwxy/refs/heads/main/fs.txt')">Yanni</button>
+            <button onclick="load('https://raw.githubusercontent.com/aidres8/bwxy/refs/heads/main/fs.txt', 'assistant')">Yanni</button>
             <button onclick="load('waterfall')">Sketch</button>
             <button onclick="load('portrait')">Portraits</button>
             <button onclick="load('nature')">Nature</button>
@@ -84,10 +84,11 @@
             };
 
             // --- Format conversion ---
-            function parseFsText(text){
+            function parseFsText(text, folderFilter = null){
                 return text
-                    .split(/\r?\n/)       // split lines
-                    .filter(x => x.trim())// remove empty lines
+                    .split(/\r?\n/)
+                    .filter(x => x.trim())                         // remove empty lines
+                    .filter(x => !folderFilter || x.includes(folderFilter)) // keep only filtered folder
                     .map(path => ({
                         src: convertPathToUrl(path),
                         alt: ""
@@ -114,12 +115,12 @@
             }
 
             // --- Loader ---
-            async function load(url){
+            async function load(url, folderFilter = null){
                 showMsg('Loading...');
                 try {
                     const r = await fetch(url);
                     const text = await r.text();
-                    const imgs = parseFsText(text);
+                    const imgs = parseFsText(text, folderFilter);
                     render(imgs);
                 } catch(e) {
                     console.error(e);
